@@ -1,0 +1,97 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, system-ui, sans-serif;
+}
+
+body {
+    background-color: #fff;
+    color: #1a202c;
+    line-height: 1.4;
+}
+
+/* BANNER */
+.top-banner {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #fff;
+    border-bottom: 2px solid #edf2f7;
+    padding: 10px 8px;
+}
+
+.banner-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.brand { font-weight: 800; color: #6b46c1; font-size: 0.9rem; }
+.contact { font-size: 0.65rem; color: #a0aec0; }
+
+.language-picker {
+    display: flex;
+    align-items: center;
+    background: #f7fafc;
+    padding: 4px 8px;
+    border-radius: 8px;
+}
+
+#language-select { border: none; background: transparent; font-weight: bold; font-size: 0.75rem; outline: none; }
+
+/* HORISONTELL NAV */
+.banner-action-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+.nav-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    padding: 8px 4px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #2d3748;
+    gap: 4px;
+}
+
+.icon { font-size: 1rem; }
+.nav-text { font-size: 0.6rem; font-weight: 700; white-space: nowrap; }
+
+/* INNEHÅLL */
+.main-content {
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.intro h1 {
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    color: #1a202c;
+}
+
+.content-block { margin-bottom: 35px; }
+.section-title { color: #6b46c1; font-size: 1.4rem; margin-bottom: 10px; font-weight: 800; }
+.section-text { font-size: 1rem; color: #4a5568; margin-bottom: 12px; }
+
+.signs-box {
+    background: #fff5f7;
+    padding: 10px;
+    border-radius: 6px;
+    border-left: 4px solid #6b46c1;
+    font-size: 0.9rem;
+}
+
+/* RTL Justering för Arabiska */
+body[style*="direction: rtl"] .signs-box {
+    border-left: none;
+    border-right: 4px solid #6b46c1;
+}

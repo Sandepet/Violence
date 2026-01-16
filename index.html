@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="top-banner">
+        <div class="banner-top-row">
+            <div class="company-info">
+                <span class="brand">Trygghet Nu</span>
+                <span class="contact">info@foretaget.se</span>
+            </div>
+            
+            <div class="language-picker">
+                <span id="current-flag" class="flag-icon">🇸🇪</span>
+                <select id="language-select" onchange="changeLanguage()">
+                    <option value="sv" data-flag="🇸🇪">Svenska</option>
+                    <option value="en" data-flag="🇬🇧">English</option>
+                    <option value="da" data-flag="🇩🇰">Dansk</option>
+                    <option value="ar" data-flag="🇸🇦">العربية</option>
+                </select>
+            </div>
+        </div>
+
+        <nav class="banner-action-row">
+            <button class="nav-item" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <span class="icon">⬆️</span>
+                <span class="nav-text" data-i18n="nav_top">Till toppen</span>
+            </button>
+
+            <a href="tel:112" class="nav-item">
+                <span class="icon">👮</span>
+                <span class="nav-text" data-i18n="nav_police">Ring 112</span>
+            </a>
+
+            <button class="nav-item" onclick="panicExit()">
+                <span class="icon">🚫</span>
+                <span class="nav-text" data-i18n="nav_close">Stäng app</span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <section class="intro">
+            <h1 data-i18n="main_title">Är du utsatt?</h1>
+        </section>
+
+        <div id="content-flow">
+            </div>
+
+        <div style="height: 100px;"></div>
+    </main>
+
+    <script>
+        const translations = {
+            sv: {
+                nav_top: "Till toppen", nav_police: "Ring 112", nav_close: "Stäng app",
+                main_title: "Är du utsatt?",
+                sections: [
+                    { title: "Hedersvåld", text: "Hedersvåld handlar om kontroll och begränsningar som motiveras med familjens eller släktens 'heder'. Det kan handla om krav på klädsel, umgänge eller vem du får gifta dig med.", signs: "Övervakning, rädsla för egna val, beslut tas av andra." },
+                    { title: "Våld i nära relation", text: "Våld i nära relation kan vara fysiskt, psykiskt eller sexuellt. Det sker ofta gradvis och varvas med löften om bättring.", signs: "Du blir nedtryckt, anpassar dig för att undvika bråk." },
+                    { title: "Psykiskt våld", text: "Handlar om att bli nedvärderad eller gaslightad för att bryta ner din självkänsla.", signs: "Tvivlar på dig själv, konstant skyldförklaring." },
+                    { title: "Ekonomiskt våld", text: "Någon kontrollerar dina pengar för att begränsa din frihet.", signs: "Ingen insyn i ekonomi, nekas tillgång till egna pengar." }
+                ]
+            },
+            en: {
+                nav_top: "Top", nav_police: "Call 112", nav_close: "Close app",
+                main_title: "Are you exposed?",
+                sections: [
+                    { title: "Honor-based Violence", text: "Honor-based violence is control justified by family reputation.", signs: "Surveillance, fear of choices, restricted freedom." },
+                    { title: "Domestic Violence", text: "Violence in close relationships can be physical or emotional.", signs: "Intimidation, economic control." },
+                    { title: "Psychological Violence", text: "Involves being devalued to break down your self-esteem.", signs: "Doubting your reality, isolation." },
+                    { title: "Economic Violence", text: "Control over finances to limit your independence.", signs: "No financial transparency." }
+                ]
+            },
+            da: {
+                nav_top: "Til toppen", nav_police: "Ring 112", nav_close: "Luk app",
+                main_title: "Er du udsat?",
+                sections: [
+                    { title: "Æresrelateret vold", text: "Vold begrundet i familiens ære og omdømme.", signs: "Overvågning, mangel på valgfrihed." },
+                    { title: "Vold i nære relationer", text: "Fysisk eller psykisk vold i parforhold.", signs: "Isolation, økonomisk kontrol." },
+                    { title: "Psykisk vold", text: "Nedbrydning af selvværd gennem trusler.", signs: "Konstant tvivl på sig selv." },
+                    { title: "Økonomisk vold", text: "Kontrol over din økonomi for at begrænse frihed.", signs: "Ingen adgang til egne penge." }
+                ]
+            },
+            ar: {
+                nav_top: "إلى الأعلى", nav_police: "اتصل بـ 112", nav_close: "إغلاق التطبيق",
+                main_title: "هل تتعرض للعنف؟",
+                sections: [
+                    { title: "العنف القائم على الشرف", text: "العنف المبرر بسمعة الأسرة وتقاليدها.", signs: "المراقبة، عدم القدرة على الاختيار." },
+                    { title: "العنف المنزلي", text: "العنف الجسدي أو النفسي في العلاقات القريبة.", signs: "الترهيب، السيطرة المالية." },
+                    { title: "العنف النفسي", text: "تحطيم تقدير الذات من خلال التهديد.", signs: "الشك في الواقع الشخصي." },
+                    { title: "العنف الاقتصادي", text: "السيطرة على أموالك للحد من استقلاليتك.", signs: "عدم الشفافية المالية." }
+                ]
+            }
+        };
+
+        function renderContent(lang) {
+            const container = document.getElementById('content-flow');
+            container.innerHTML = '';
+            translations[lang].sections.forEach(sec => {
+                container.innerHTML += `
+                    <article class="content-block">
+                        <h2 class="section-title">${sec.title}</h2>
+                        <p class="section-text">${sec.text}</p>
+                        <div class="signs-box">
+                            <strong>${lang === 'sv' ? 'Tecken:' : (lang === 'ar' ? 'العلامات:' : 'Signs:')}</strong> ${sec.signs}
+                        </div>
+                    </article>
+                `;
+            });
+        }
+
+        function changeLanguage() {
+            const select = document.getElementById('language-select');
+            const lang = select.value;
+            const selectedOption = select.options[select.selectedIndex];
+            document.getElementById('current-flag').innerText = selectedOption.getAttribute('data-flag');
+
+            // Uppdaterar bannerns texter
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang][key]) {
+                    el.innerText = translations[lang][key];
+                }
+            });
+
+            renderContent(lang);
+            document.body.style.direction = (lang === 'ar') ? 'rtl' : 'ltr';
+        }
+
+        function panicExit() { window.location.replace("https://www.google.com"); }
+
+        // Initiering
+        renderContent('sv');
+    </script>
+</body>
+</html>
